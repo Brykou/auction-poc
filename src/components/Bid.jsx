@@ -44,7 +44,7 @@ export default class Bid extends React.PureComponent {
           type="number"
           min={lastPrice}
           step="1"
-          value={price ? price : lastPrice}
+          value={price && price > lastPrice ? price : lastPrice}
           onChange={this.handleChange}
         />
         <button
