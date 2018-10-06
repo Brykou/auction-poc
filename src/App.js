@@ -1,25 +1,63 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import firebase from "firebase";
+import { Switch, Route, Redirect, Link } from "react-router-dom";
+import Home from "./components/Home";
+import Login from "./components/Login";
+import Auction from "./connectors/Auction";
+import Bid from "./connectors/Bid";
+import config from "./config";
+import "./App.css";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    firebase.initializeApp(config.firebase);
+    this.state = {
+      user: null
+    };
+  }
+
+  onUserSignIn = user => {
+    this.setState({
+      user: user
+    });
+  };
+
   render() {
+    const { user } = this.state;
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={() => (user ? <Home /> : <Redirect to="/login" />)}
+          />
+          <Route
+            path="/auction"
+            render={() =>
+              user ? <Auction userId={user.uid} /> : <Redirect to="/login" />
+            }
+          />
+          <Route
+            path="/bid"
+            render={() =>
+              user ? <Bid userId={user.uid} /> : <Redirect to="/login" />
+            }
+          />
+          <Route
+            path="/login"
+            render={props => (
+              <Login onUserSignIn={this.onUserSignIn} {...props} />
+            )}
+          />
+        </Switch>
+
+        {user ? (
+          <Link className="db mt3" to={"/"}>
+            Back to home
+          </Link>
+        ) : null}
       </div>
     );
   }
