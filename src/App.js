@@ -27,6 +27,9 @@ class App extends Component {
     const { user } = this.state;
     return (
       <div className="App">
+        {user ? (
+          <div className="f7 mb3">{`Connected as ${user.uid}`}</div>
+        ) : null}
         <Switch>
           <Route
             exact

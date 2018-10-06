@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Mssage({ message }) {
+export default function Message({ message }) {
   if (!message) {
     return null;
   }

@@ -54,7 +54,7 @@ export default class Bid extends React.PureComponent {
         >
           Add bid
         </button>
-        <div className="f7">
+        <div className="f7 mb2">
           {lastBidder
             ? `Last bid by ${lastBidder}`
             : `No bidder, be the first to bid`}
